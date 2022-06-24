@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', "App\Http\Controllers\TaskController@index")->name('task.index');
 Route::get('/create', "App\Http\Controllers\TaskController@create")->name('task.create');
-Route::get('/edit', "App\Http\Controllers\TaskController@edit")->name('task.edit');
+Route::get('/edit/{id}', "App\Http\Controllers\TaskController@edit")->name('task.edit');
 Route::post('/store', "App\Http\Controllers\TaskController@store")->name('task.store');
-Route::post('/update', "App\Http\Controllers\TaskController@update")->name('task.update');
-Route::post('/delete', "App\Http\Controllers\TaskController@delete")->name('task.delete');
+Route::post('/update/{id}', "App\Http\Controllers\TaskController@update")->name('task.update');
+Route::post('/delete/{id}', "App\Http\Controllers\TaskController@delete")->name('task.delete');
 
 
 Route::get('register/pre_complete', 'App\Http\Controllers\Auth\RegisterController@pre_complete')->name('register.pre_complete');

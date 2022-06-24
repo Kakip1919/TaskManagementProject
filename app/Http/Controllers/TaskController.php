@@ -14,9 +14,9 @@ class TaskController extends Controller
         if(!Auth::check()) return view("task.index");
 
         $user_id = Auth::user()->id;
-        $task_response = Task::where("user_id", $user_id)->paginate(5);
+        $task_data = Task::where("user_id", $user_id)->paginate(5);
 
-        return view("task.index",compact("task_response"));
+        return view("task.index",compact("task_data"));
     }
 
     public function create()
@@ -30,18 +30,21 @@ class TaskController extends Controller
         return redirect("/")->with("flash_message", "タスクが作成されました。");
     }
 
-    public function edit()
+    public function edit($id)
     {
-
+        $task_data = Task::where("id", $id)->first();
+        return view("task.edit",compact("task_data"));
     }
 
-    public function update()
+    public function update($id,Request $request)
     {
-
+        Task::TaskUpdate($id,$request);
+        return redirect("/")->with("flash_message", "タスクを更新しました。");
     }
 
-    public function delete()
+    public function delete($id)
     {
-
+        Task::TaskDelete($id);
+        return redirect("/")->with("flash_message", "タスクを削除しました。");
     }
 }

@@ -4,10 +4,17 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+                <!-- フラッシュメッセージ -->
+                <div class="">
+                @if (session('flash_message'))
+                    <div class="flash_message alert alert-success">
+                        {{ session('flash_message') }}
+                    </div>
+                @endif
+                </div>
                 @if(Auth::check())
                     <div id="search_group">
                     </div>
-                    <div class="card">
                         <div class="col-md-12 mb-3">
                             <span><input type="checkbox">期限超過のみ</span>
                             <span><input type="checkbox">完了済みを表示</span>
@@ -15,7 +22,6 @@
                             <a href="{{route("task.create")}}">
                                 <button type="button" class="btn btn-primary float-end">+ タスクの追加</button>
                             </a>
-                        </div>
                         <table class="table table-hover table-secondary">
                             <thead>
                             <tr>
@@ -25,12 +31,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($task_response as $task_data)
-                                <tr>
-                                    <td>{{Auth::user()->name}}</td>
-                                    <td>{{$task_data->title}}</td>
-                                    <td>{{$task_data->deadline}}</td>
-                                </tr>
+                            @foreach($task_data as $data)
+                                    <tr>
+                                        <td><a href="{{route("task.edit",["id" => $data->id])}}">{{Auth::user()->name}}</a></td>
+                                        <td><a href="{{route("task.edit",["id" => $data->id])}}">{{$data->title}}</a></td>
+                                        <td><a href="{{route("task.edit",["id" => $data->id])}}">{{$data->deadline}}</a></td>
+                                    </tr>
                             @endforeach
                             </tbody>
                         </table>

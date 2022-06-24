@@ -17,12 +17,12 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'email_verified', 'email_verify_token',
-    ];
+    protected array $fillable = [
+    'name',
+    'email',
+    'password',
+    'email_verified', 'email_verify_token',
+];
 
     /**
      * The attributes that should be hidden for serialization.

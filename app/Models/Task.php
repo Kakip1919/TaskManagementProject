@@ -11,12 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * @method static TaskStore(Request $request)
+ * @method static TaskUpdate($id, Request $request)
+ * @method static TaskDelete($id)
  */
 class Task extends Model
 {
     use HasFactory;
 
-    protected $table = "tm_task";
+    protected array $fillable = [
+        'title',
+        'body',
+        'status',
+        'deadline',
+    ];
+    protected string $table = "tm_task";
 
 
     public function scopeTaskStore($query, Request $request)
@@ -37,7 +45,32 @@ class Task extends Model
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            dd($e);
         }
+    }
+
+    public function scopeTaskUpdate($query, $id, Request $request)
+    {
+        $request->validate([
+            'title' => 'required|max:64',
+            'body' => 'nullable',
+        ]);
+        $title = $request->input("title");
+        $status = $request->input("status");
+        $body = $request->input("body");
+        $deadline = $request->input("deadline");
+
+
+        DB::beginTransaction();
+        try {
+            self::find($id)->update(["title" => $title, "body" => $body, "status" => $status, "deadline" => $deadline]);
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+        }
+    }
+
+    public function scopeTaskDelete($query, $id)
+    {
+        self::find($id)->delete();
     }
 }
