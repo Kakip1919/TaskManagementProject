@@ -19,6 +19,7 @@ class Task extends Model
     use HasFactory;
 
     protected array $fillable = [
+        "name",
         'title',
         'body',
         'status',
@@ -27,12 +28,36 @@ class Task extends Model
     protected string $table = "tm_task";
 
 
+    public function scopeTaskIndex($query, Request $request)
+    {
+        $search_keyword = $request->input("q");
+        $kind = $request->input("kind");
+
+        $task_query = self::query();
+
+        if ($kind === "deadline") {
+            return Task::where("user_id", Auth::user()->id)->where("deadline", "<", date("Y-m-d"))->paginate(5);
+        } elseif ($kind === "complete") {
+            return Task::where("user_id", Auth::user()->id)->paginate(5);
+        } else {
+            if ($search_keyword !== null) {
+                return $task_query->where("status", 0)->where("name", "like", "%" . "$search_keyword" . "%")->orWhere("title", "like", "%" . "$search_keyword" . "%")->orWhere("body", "like", "%" . "$search_keyword" . "%")->select("id", "title", "deadline")->paginate(5);
+            }
+            $user_id = Auth::user()->id;
+            return Task::where("user_id", $user_id)->where("status", 0)->select("id", "title", "deadline")->paginate(5);
+        }
+    }
+
+
     public function scopeTaskStore($query, Request $request)
     {
         $request->validate([
             'title' => 'required|max:64',
             'body' => 'nullable',
         ]);
+
+        //検索の冗長化のため追加
+        $name = Auth::user()->name;
         $user_id = Auth::user()->id;
         $title = $request->input("title");
         $body = $request->input("body");
@@ -41,12 +66,13 @@ class Task extends Model
 
         DB::beginTransaction();
         try {
-            self::insert(["user_id" => $user_id, "title" => $title, "body" => $body, "deadline" => $deadline]);
+            self::insert(["name" => $name, "user_id" => $user_id, "title" => $title, "body" => $body, "deadline" => $deadline]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
         }
     }
+
 
     public function scopeTaskUpdate($query, $id, Request $request)
     {
@@ -69,8 +95,10 @@ class Task extends Model
         }
     }
 
+
     public function scopeTaskDelete($query, $id)
     {
         self::find($id)->delete();
     }
+
 }

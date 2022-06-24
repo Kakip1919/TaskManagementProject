@@ -13,7 +13,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-end">ユーザー名</label>
 
                                 <div class="col-md-6">
-                                    <label for="name" class="col-md-4 col-form-label">{{Auth::user()->name}}</label>
+                                    <label for="name" class="col-md-4 col-form-label" style="padding: 0.375rem 0.75rem;">{{Auth::user()->name}}</label>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -43,21 +43,37 @@
                                 <label for="status" class="col-md-4 col-form-label text-md-end p-1">ステータス</label>
                                 <div class="col-md-6 d-flex"
                                      style="flex-wrap: nowrap; align-items: center;">
-                                    <div class="form-check m-1">
-                                        <input class="form-check-input" type="radio" value="0" name="status"
-                                               id="flexRadioDefault1" checked>
-                                        <label class="form-check-label" for="not_compatible">
-                                            未対応
-                                        </label>
-                                    </div>
-                                    <div class="form-check m-1">
-                                        <input class="form-check-input " type="radio" value="1" name="status"
-                                               id="flexRadioDefault2">
-                                        <label class="form-check-label" for="complete">
-                                            完了
-                                        </label>
-                                    </div>
-
+                                    @if($task_data->status === 0)
+                                        <div class="form-check m-1">
+                                            <input class="form-check-input" type="radio" value="0" name="status"
+                                                   id="flexRadioDefault1" checked>
+                                            <label class="form-check-label" for="not_compatible">
+                                                未対応
+                                            </label>
+                                        </div>
+                                        <div class="form-check m-1">
+                                            <input class="form-check-input " type="radio" value="1" name="status"
+                                                   id="flexRadioDefault2">
+                                            <label class="form-check-label" for="complete">
+                                                完了
+                                            </label>
+                                        </div>
+                                    @else
+                                        <div class="form-check m-1">
+                                            <input class="form-check-input" type="radio" value="0" name="status"
+                                                   id="flexRadioDefault1">
+                                            <label class="form-check-label" for="not_compatible">
+                                                未対応
+                                            </label>
+                                        </div>
+                                        <div class="form-check m-1">
+                                            <input class="form-check-input " type="radio" value="1" name="status"
+                                                   id="flexRadioDefault2" checked>
+                                            <label class="form-check-label" for="complete">
+                                                完了
+                                            </label>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -79,7 +95,8 @@
                                 <div class="col-md-6">
                                     <button type="submit" class="btn btn-primary float-end">更新</button>
                                     <div class="col-md-9">
-                                        <button type="button" id="delete_task" class="btn btn-danger float-end">削除
+                                        <button type="button" id="delete_task" class="btn btn-danger float-end">
+                                            削除
                                         </button>
                                     </div>
                                 </div>

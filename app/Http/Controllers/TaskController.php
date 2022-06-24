@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
-        if(!Auth::check()) return view("task.index");
-
-        $user_id = Auth::user()->id;
-        $task_data = Task::where("user_id", $user_id)->paginate(5);
-
-        return view("task.index",compact("task_data"));
+        if (!Auth::check()) return view("task.index");
+        $task_data = Task::TaskIndex($request);
+        $kind = $request->input("kind");
+        return view("task.index", compact("task_data","kind"));
     }
 
     public function create()
@@ -33,12 +31,12 @@ class TaskController extends Controller
     public function edit($id)
     {
         $task_data = Task::where("id", $id)->first();
-        return view("task.edit",compact("task_data"));
+        return view("task.edit", compact("task_data"));
     }
 
-    public function update($id,Request $request)
+    public function update($id, Request $request)
     {
-        Task::TaskUpdate($id,$request);
+        Task::TaskUpdate($id, $request);
         return redirect("/")->with("flash_message", "タスクを更新しました。");
     }
 
@@ -47,4 +45,5 @@ class TaskController extends Controller
         Task::TaskDelete($id);
         return redirect("/")->with("flash_message", "タスクを削除しました。");
     }
+
 }
