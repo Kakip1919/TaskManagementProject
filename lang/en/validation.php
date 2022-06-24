@@ -154,6 +154,12 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        "name" => "名前",
+        "title" => "タイトル",
+        "password" => "パスワード",
+        "email" => "メールアドレス",
+        "deadline" => "期限",
+    ],
 
 ];

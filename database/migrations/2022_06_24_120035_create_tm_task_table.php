@@ -13,16 +13,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('tm_task', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('name');
-            $table->string('password');
-            $table->tinyInteger('verified')->nullable();
-            $table->string('email_verify_token')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->tinyInteger('status')->default(0);
-            $table->rememberToken();
+            $table->integer("user_id");
+            $table->string("title");
+            $table->text("body")->default("");
+            $table->tinyInteger("status")->default(0);
+            $table->date("deadline")->default("1900-01-01")->nullable();
             $table->datetime("created_at")->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
@@ -35,6 +32,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('tm_task');
     }
 };
