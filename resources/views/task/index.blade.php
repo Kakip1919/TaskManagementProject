@@ -50,9 +50,7 @@
                         {{$task_data->appends(request()->query())->links()}}
                     </div>
                 @else
-                    <div class="card">
-                        <div class="card-header alert alert-danger"> タスクを表示するには、ログインしてください。</div>
-                    </div>
+                    <div class="card-header alert alert-danger"> タスクを表示するには、ログインしてください。</div>
                 @endif
             </div>
         </div>
