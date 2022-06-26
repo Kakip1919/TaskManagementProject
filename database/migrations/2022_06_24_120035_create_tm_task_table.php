@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->integer("user_id");
             $table->string("name");
             $table->string("title");
-            $table->text("body")->default("")->nullable();
+            $table->text("body")->nullable();
             $table->tinyInteger("status")->default(0);
             $table->date("deadline")->default("1900-01-01")->nullable();
             $table->datetime("created_at")->default(DB::raw('CURRENT_TIMESTAMP'));
