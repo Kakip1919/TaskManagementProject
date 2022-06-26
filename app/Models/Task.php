@@ -32,20 +32,18 @@ class Task extends Model
     {
         $search_keyword = $request->input("q");
         $kind = $request->input("kind");
-   	$user_id = Auth::user()->id;
+
         $task_query = self::query();
 
         if ($kind === "deadline") {
-            return Task::where("user_id", $user_id)->where("deadline", "<", date("Y-m-d"))->paginate(5);
+            return Task::where("user_id", Auth::user()->id)->where("deadline", "<", date("Y-m-d"))->paginate(5);
         } elseif ($kind === "complete") {
-            return Task::where("user_id", $user_id)->paginate(5);
+            return Task::where("user_id", Auth::user()->id)->paginate(5);
         } else {
             if ($search_keyword !== null) {
-                return self::where("user_id",$user_id)->where("status", 0)->where(function ($query) use ($search_keyword) {
-    		    $query->orWhere("name", "like", "%" . "$search_keyword" . "%")->orWhere("title", "like", "%" . "$search_keyword" . "%")->orWhere("body", "like", "%" . "$search_keyword" . "%");
-		})->select("id", "title", "deadline")->paginate(5);
-	        }
-         
+                return $task_query->where("status", 0)->where("name", "like", "%" . "$search_keyword" . "%")->orWhere("title", "like", "%" . "$search_keyword" . "%")->orWhere("body", "like", "%" . "$search_keyword" . "%")->select("id", "title", "deadline")->paginate(5);
+            }
+            $user_id = Auth::user()->id;
             return Task::where("user_id", $user_id)->where("status", 0)->select("id", "title", "deadline")->paginate(5);
         }
     }
