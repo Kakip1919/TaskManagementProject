@@ -23,7 +23,7 @@
                                 <div class="col-md-6">
                                     <input id="title" type="text"
                                            class="form-control @error('title') is-invalid @enderror" name="title"
-                                           value="{{ old('title') }}" required autocomplete="title" autofocus>
+                                           value="{{ old('title') }}" autocomplete="title" autofocus>
 
                                     @error('title')
                                     <span class="invalid-feedback" role="alert">
@@ -45,7 +45,7 @@
                                 <label for="deadline" class="col-md-4 col-form-label text-md-end">期限</label>
 
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control" name="deadline"
+                                    <input type="date" class="form-control @error('deadline') is-invalid @enderror" name="deadline"
                                            autocomplete="deadline" autofocus>
                                     @error('deadline')
                                     <span class="invalid-feedback" role="alert">
