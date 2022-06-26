@@ -12,13 +12,6 @@
                             @csrf
 
                             <div class="form-group row">
-                                <label for="user_id" class="col-md-4 col-form-label text-md-right">ユーザーID</label>
-
-                                <div class="col-md-6">
-                                    <span>{{session()->get("user_id")}}</span>
-                                </div>
-                            </div>
-                            <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">名前</label>
 
                                 <div class="col-md-6">

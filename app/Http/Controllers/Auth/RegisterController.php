@@ -57,7 +57,6 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'user_id' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', "max:32", new AlphaNumHalf, 'confirmed'],
@@ -69,7 +68,6 @@ class RegisterController extends Controller
     {
         if (!User::where("email", $data["email"])->exists()) {
             $user = User::create([
-                'user_id' => $data["user_id"],
                 'name' => $data['name'],
                 'email' => $data["email"],
                 'password' => Hash::make($data['password']),
@@ -87,7 +85,6 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        $request->session()->put("user_id", $request->input("user_id"));
         $request->session()->put("name", $request->input("name"));
         $request->session()->put("email", $request->input("email"));
         $request->session()->put("password", $request->input("password"));
