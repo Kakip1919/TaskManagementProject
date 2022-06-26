@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">タスクの新規追加</div>
+                    <div class="card-header">タスクの編集</div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('task.update',["id" => $task_data->id]) }}">
                             @csrf
@@ -22,7 +22,7 @@
                                 <div class="col-md-6">
                                     <input id="title" type="text"
                                            class="form-control @error('title') is-invalid @enderror" name="title"
-                                           value="{{$task_data->title}}" required autocomplete="title" autofocus>
+                                           value="{{$task_data->title}}" autocomplete="title" autofocus>
 
                                     @error('title')
                                     <span class="invalid-feedback" role="alert">
@@ -67,7 +67,7 @@
                                             </label>
                                         </div>
                                         <div class="form-check m-1">
-                                            <input class="form-check-input " type="radio" value="1" name="status"
+                                            <input class="form-check-input" type="radio" value="1" name="status"
                                                    id="flexRadioDefault2" checked>
                                             <label class="form-check-label" for="complete">
                                                 完了
@@ -80,7 +80,7 @@
                                 <label for="deadline" class="col-md-4 col-form-label text-md-end">期限</label>
 
                                 <div class="col-md-6">
-                                    <input type="date" class="form-control" name="deadline"
+                                    <input type="date" class="form-control @error('deadline') is-invalid @enderror" name="deadline"
                                            value="{{$task_data->deadline}}"
                                            autocomplete="deadline" autofocus>
                                     @error('deadline')
